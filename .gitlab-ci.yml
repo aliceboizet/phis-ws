@@ -1,14 +1,19 @@
+# CI Deployment protocol for tomcat 8
+
 # Cache downloaded dependencies and plugins between builds.
 # To keep cache across branches add 'key: "$CI_JOB_NAME"'
 cache:
   paths:
     - .m2/repository
 
+# Need to be defined in GITLAB CI Variables
+#   REMOTE_IP : "138.102.159.37"
+#   REMOTE_PORT: "8080"
+#   WAR : openSilexTestAPI
+#   MANAGER_ACCOUNT : phis
+#   MANAGER_PASS : "*******"
+
 variables:
-   REMOTE_IP : "138.102.159.37"
-   WAR : openSilexTestAPI
-   MANAGER_ACCOUNT : phis
-   MANAGER_PASS : "fieldc1.61!"
    # This will supress any download for dependencies and plugins or upload messages which would clutter the console log.
    # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
    MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
@@ -16,7 +21,7 @@ variables:
    # when running from the command line.
    # `installAtEnd` and `deployAtEnd` are only effective with recent version of the corresponding plugins.
    MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
-
+   BUILD_WAR_PATH: "phis2-ws/target/opensilex.war"
    
 
 before_script:
@@ -30,15 +35,14 @@ build:webservice:
     - mvn $MAVEN_CLI_OPTS install -Ptest
   artifacts:
     paths:
-    - phis2-ws/target/opensilex.war
+    - $BUILD_WAR_PATH
     expire_in: "1 week"
     
 deploy:webservice:
   image: curlimages/curl
   stage: deploy
   script:
-    - echo "http://$MANAGER_ACCOUNT:$MANAGER_PASS@$REMOTE_IP:8080/manager/text/deploy?path=/$WAR&update=true"
-    - curl -v -T "phis2-ws/target/opensilex.war" "http://$MANAGER_ACCOUNT:$MANAGER_PASS@$REMOTE_IP:8080/manager/text/deploy?path=/$WAR&update=true"
+    - curl -v -T $BUILD_WAR_PATH "http://$MANAGER_ACCOUNT:$MANAGER_PASS@$REMOTE_IP:$REMOTE_PORT/manager/text/deploy?path=/$WAR&update=true"
   when: manual
   dependencies:
     - build:webservice
