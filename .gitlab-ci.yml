@@ -1,15 +1,17 @@
 # define system environment variables 
 cache:
   paths:
-    - maven.repository/
+    - .cache/maven.repository
 
 variables:
    REMOTE_IP : "138.102.159.37"
    WAR : openSilexTestAPI
    MANAGER_ACCOUNT : phis
    MANAGER_PASS : fieldc1.61!
-   MAVEN_OPTS: "--batch-mode -Dmaven.repo.local=maven.repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN"
+   MAVEN_OPTS: "--batch-mode -Dmaven.repo.local=.cache/maven.repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN"
 
+before_script:
+  - mkdir -p .cache/maven.repository
 
 build:webservice:
   image: jamesdbloom/docker-java8-maven
