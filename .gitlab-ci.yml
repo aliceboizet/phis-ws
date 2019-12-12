@@ -20,9 +20,9 @@ build:webservice:
   image: jamesdbloom/docker-java8-maven
   stage: build
   script:
-    - cd phis2ws
+    - cd phis2-ws
     - mvn install -Ptest
   artifacts:
     paths:
-    - phis2ws/target/opensilex.war
+    - phis2-ws/target/opensilex.war
     expire_in: 1 week
