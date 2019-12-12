@@ -1,19 +1,13 @@
 # define system environment variables 
 cache:
-    key: "$CI_COMMIT_REF_SLUG"
-    paths:
-      - "vendor"
-      
+  paths:
+    - maven.repository/
+
 variables:
-   SCP_ACCOUNT : "mvidal"
-   REMOTE_IP : "138.102.159.37"
-   TMP_DIR : "/tmp/phis-webapp"
-   RSYNC_DEST : "test"
-   RSYNC_USER : "phis"
-   RSYNC_ACCOUNT : "phis"
    WAR : openSilexTestAPI
    MANAGER_ACCOUNT : phis
    MANAGER_PASS : fieldc1.61!
+   MAVEN_OPTS: "--batch-mode -Dmaven.repo.local=maven.repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN"
 
 
 build:webservice:
