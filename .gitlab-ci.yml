@@ -27,5 +27,3 @@ deploy:webservice:
   stage: build
   script:
     - curl -T "phis2-ws/target/opensilex.war" "http://manager:$MANAGER_ACCOUNT@$REMOTE_IP:8080/manager/text/deploy?path=/$WAR&update=true"
-  dependencies: ["build:webservice"]
-
