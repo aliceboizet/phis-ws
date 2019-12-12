@@ -1,0 +1,27 @@
+# define system environment variables 
+cache:
+    key: "$CI_COMMIT_REF_SLUG"
+    paths:
+      - "vendor"
+      
+variables:
+   SCP_ACCOUNT : "mvidal"
+   REMOTE_IP : "138.102.159.37"
+   TMP_DIR : "/tmp/phis-webapp"
+   RSYNC_DEST : "test"
+   RSYNC_USER : "phis"
+   RSYNC_ACCOUNT : "phis"
+   WAR : openSilexTestAPI
+   MANAGER_ACCOUNT : phis
+   MANAGER_PASS : fieldc1.61!
+
+
+build:webservice:
+  image: docker-java8-maven
+  stage: build
+  script:
+     - mvn install -Ptest
+  artifacts:
+    paths:
+    - target/opensilex.war
+    expire_in: 1 week
