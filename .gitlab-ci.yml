@@ -37,7 +37,8 @@ deploy:webservice:
   image: curlimages/curl
   stage: deploy
   script:
-    - curl -v -u $MANAGER_ACCOUNT:MANAGER_PASS -T "phis2-ws/target/opensilex.war" "http://$REMOTE_IP:8080/manager/text/deploy?path=/$WAR&update=true"
+    - echo "http://$MANAGER_ACCOUNT:$MANAGER_PASS@$REMOTE_IP:8080/manager/text/deploy?path=/$WAR&update=true"
+    - curl -v -T "phis2-ws/target/opensilex.war" "http://$MANAGER_ACCOUNT:$MANAGER_PASS@$REMOTE_IP:8080/manager/text/deploy?path=/$WAR&update=true"
   when: manual
   dependencies:
     - build:webservice
