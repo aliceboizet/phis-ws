@@ -4,6 +4,7 @@ cache:
     - maven.repository/
 
 variables:
+   REMOTE_IP : "138.102.159.37"
    WAR : openSilexTestAPI
    MANAGER_ACCOUNT : phis
    MANAGER_PASS : fieldc1.61!
@@ -20,3 +21,11 @@ build:webservice:
     paths:
     - phis2-ws/target/opensilex.war
     expire_in: 1 week
+    
+deploy:webservice:
+  image: curlimages/curl
+  stage: build
+  script:
+    - curl -T "phis2-ws/target/opensilex.war" "http://manager:$MANAGER_ACCOUNT@$REMOTE_IP:8080/manager/text/deploy?path=/$WAR&update=true"
+  dependencies: ["build:webservice"]
+
