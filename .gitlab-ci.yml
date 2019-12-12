@@ -8,7 +8,7 @@ variables:
    REMOTE_IP : "138.102.159.37"
    WAR : openSilexTestAPI
    MANAGER_ACCOUNT : phis
-   MANAGER_PASS : fieldc1.61!
+   MANAGER_PASS : "fieldc1.61!"
    # This will supress any download for dependencies and plugins or upload messages which would clutter the console log.
    # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
    MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
@@ -37,7 +37,7 @@ deploy:webservice:
   image: curlimages/curl
   stage: deploy
   script:
-    - curl -T "phis2-ws/target/opensilex.war" "http://manager:$MANAGER_ACCOUNT@$REMOTE_IP:8080/manager/text/deploy?path=/$WAR&update=true"
+    - curl -v -u $MANAGER_ACCOUNT:MANAGER_PASS -T "phis2-ws/target/opensilex.war" "http://$REMOTE_IP:8080/manager/text/deploy?path=/$WAR&update=true"
   when: manual
   dependencies:
     - build:webservice
