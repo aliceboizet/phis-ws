@@ -20,10 +20,11 @@ build:webservice:
   artifacts:
     paths:
     - phis2-ws/target/opensilex.war
-    expire_in: 1 week
+    expire_in: "1 week"
     
 deploy:webservice:
   image: curlimages/curl
   stage: build
   script:
     - curl -T "phis2-ws/target/opensilex.war" "http://manager:$MANAGER_ACCOUNT@$REMOTE_IP:8080/manager/text/deploy?path=/$WAR&update=true"
+  when: manual
