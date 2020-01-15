@@ -31,31 +31,7 @@ variables:
 
 before_script:
   - mkdir -p .cache/maven.repository
-  ##
-  ## Create the SSH directory and give it the right permissions
-  ##
-  - mkdir -p ${HOME}/.ssh
-  - chmod 700 ${HOME}/.ssh
-  ##
-  ## Install ssh-agent if not already installed, it is required by Docker.
-  ## (change apt-get to yum if you use an RPM-based image)
-  ##
-  - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
 
-  ##
-  ## Run ssh-agent (inside the build environment)
-  ##
-  - eval $(ssh-agent -s)
-
-  ##
-  ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
-  ## We're using tr to fix line endings which makes ed25519 keys work
-  ## without extra base64 encoding.
-  ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
-  ##
-  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ${HOME}/.ssh/config
-  - echo "$SSH_PRIVATE_KEY" > ${HOME}/.ssh/id_rsa
-  - chmod 600 ${HOME}/.ssh/id_rsa
 
 build:webservice:
   image: maven:3.3.9-jdk-8
@@ -82,6 +58,31 @@ reload:webservice:
   image: curlimages/curl
   stage: deploy
   script:
+    ##
+    ## Create the SSH directory and give it the right permissions
+    ##
+    - mkdir -p ${HOME}/.ssh
+    - chmod 700 ${HOME}/.ssh
+    ##
+    ## Install ssh-agent if not already installed, it is required by Docker.
+    ## (change apt-get to yum if you use an RPM-based image)
+    ##
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+
+    ##
+    ## Run ssh-agent (inside the build environment)
+   ##
+    - eval $(ssh-agent -s)
+
+    ##
+    ## Add the SSH key stored in SSH_PRIVATE_KEY variable to the agent store
+    ## We're using tr to fix line endings which makes ed25519 keys work
+    ## without extra base64 encoding.
+    ## https://gitlab.com/gitlab-examples/ssh-private-key/issues/1#note_48526556
+    ##
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ${HOME}/.ssh/config
+    - echo "$SSH_PRIVATE_KEY" > ${HOME}/.ssh/id_rsa
+    - chmod 600 ${HOME}/.ssh/id_rsa
     - curl -v -T $BUILD_WAR_PATH "http://$MANAGER_ACCOUNT:$MANAGER_PASS@$REMOTE_IP:$REMOTE_PORT/manager/text/reload?path=/$WAR"
   dependencies:
     - update:webservice
