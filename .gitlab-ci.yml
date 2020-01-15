@@ -1,5 +1,10 @@
 # CI Deployment protocol for tomcat 8
 
+stages:
+  - build
+  - upload
+  - deploy
+
 # Cache downloaded dependencies and plugins between builds.
 # To keep cache across branches add 'key: "$CI_JOB_NAME"'
 cache:
@@ -66,7 +71,7 @@ build:webservice:
 ## see https://hub.docker.com/r/kroniak/ssh-client/
 update:webservice:
   image: kroniak/ssh-client
-  stage: deploy
+  stage: upload
   script:
     - scp -i ${HOME}/.ssh/id_rsa -o "StrictHostKeyChecking no" ./target/opensilex.war $SCP_ACCOUNT@$REMOTE_IP:/home/$SCP_ACCOUNT/tomcat9/webapps/$WAR.war
   when: manual
