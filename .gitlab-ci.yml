@@ -1,4 +1,4 @@
-staging:
+deploy_test:
   variables:
     INSTANCE: test
   stage: build
