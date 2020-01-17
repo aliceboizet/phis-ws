@@ -1,5 +1,10 @@
+
 variables:
     INSTANCE: test
+    
+rspec:
+  stage: test
+  script: echo 'test'
 
 deploy_test:
   stage: deploy
