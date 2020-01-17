@@ -4,7 +4,4 @@ variables:
 rspec:
   stage: test
   script: echo 'test'
-
-trigger:
-  stage: deploy
   trigger: OpenSILEX/opensilex-dev-tools
