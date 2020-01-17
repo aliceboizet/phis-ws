@@ -1,5 +1,6 @@
-deploy_test:
-  variables:
+variables:
     INSTANCE: test
-  stage: build
+
+deploy_test:
+  stage: deploy
   trigger: OpenSILEX/opensilex-dev-tools
