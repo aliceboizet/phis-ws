@@ -5,6 +5,6 @@ rspec:
   stage: test
   script: bundle exec rspec
 
-staging:
+deploy_prod:
   stage: deploy
   trigger: OpenSILEX/opensilex-dev-tools
