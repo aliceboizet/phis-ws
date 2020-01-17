@@ -19,7 +19,7 @@ build:webservice:
   script:
     - if [ -z "$INSTANCE" ]; then exit; fi
     - cd phis2-ws
-    - mvn $MAVEN_CLI_OPTS install -U -Ptest
+    - mvn $MAVEN_CLI_OPTS install -Ptest
   artifacts:
     paths:
     - $BUILD_WAR_PATH
