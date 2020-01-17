@@ -1,7 +1,10 @@
 variables:
     INSTANCE: test
-    
+
 rspec:
   stage: test
-  script: echo 'test'
+  script: bundle exec rspec
+
+staging:
+  stage: deploy
   trigger: OpenSILEX/opensilex-dev-tools
