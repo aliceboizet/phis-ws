@@ -1,4 +1,3 @@
-
 # CI Deployment protocol for tomcat 8
 
 # Cache downloaded dependencies and plugins between builds.
@@ -53,7 +52,7 @@ deploy:webservice:
     - master  
 
 # Trigger pipeline for test deployment
-deploy:webservice:
+deploy:webservice:modularity:
   image: curlimages/curl
   when: manual
   stage: deploy
