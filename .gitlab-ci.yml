@@ -54,7 +54,6 @@ deploy:webservice:
 # Trigger pipeline for test deployment
 deploy:webservice:modularity:
   image: curlimages/curl
-  when: manual
   stage: deploy
   script:
     - echo $CI_COMMIT_SHORT_SHA
