@@ -63,8 +63,8 @@ public class InfrastructureDAO extends Rdf4jDAO<Infrastructure> {
      * @example
      * SELECT  ?uri ?rdfType  ?label 
      * WHERE {
-     *   ?rdfType  rdfs:subClassOf*  <http://www.opensilex.org/vocabulary/oeso#Infrastructure> .
-     *   ?uri  ?0  ?rdfType  .  
+     *   ?uri  ?0  ?rdfType  . 
+     *   ?rdfType  rdfs:subClassOf*  <http://www.opensilex.org/vocabulary/oeso#Infrastructure> . 
      *   OPTIONAL {
      *     ?uri rdfs:label ?label . 
      *   }
@@ -90,8 +90,8 @@ public class InfrastructureDAO extends Rdf4jDAO<Infrastructure> {
             query.appendTriplet(infrastructureUri, Rdf.RELATION_TYPE.toString(), rdfType, null);
         } else {
             query.appendSelect("?" + RDF_TYPE);
-            query.appendTriplet("?" + RDF_TYPE, "<" + Rdfs.RELATION_SUBCLASS_OF.toString() + ">*", Oeso.CONCEPT_INFRASTRUCTURE.toString(), null);
             query.appendTriplet(infrastructureUri, Rdf.RELATION_TYPE.toString(), "?" + RDF_TYPE, null);
+            query.appendTriplet("?" + RDF_TYPE, "<" + Rdfs.RELATION_SUBCLASS_OF.toString() + ">*", Oeso.CONCEPT_INFRASTRUCTURE.toString(), null);
         }
         
         // Select RDF Type label in specified language

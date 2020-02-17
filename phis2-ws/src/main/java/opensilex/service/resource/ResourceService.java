@@ -368,7 +368,7 @@ public abstract class ResourceService {
      * @param resultForm
      * @return the response.
      */
-    protected Response buildResponse(Response.Status status, AbstractResultForm resultForm) {
+    private Response buildResponse(Response.Status status, AbstractResultForm resultForm) {
         return Response.status(status).entity(resultForm).build();
     }
 }

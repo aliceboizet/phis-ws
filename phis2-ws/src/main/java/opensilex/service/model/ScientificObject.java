@@ -15,22 +15,45 @@ import java.util.ArrayList;
  * @author Morgane Vidal <morgane.vidal@inra.fr>
  */
 public class ScientificObject {
-    //scientific object uri
+    
+    /**
+     * Scientific object URI.
+     */
     private String uri;
-    //type of the scientific object
+    
+    /**
+     * //SILEX:todo
+     * For the moment it is an attribute.
+     * Modify getAO (search) getting all properties, alias included
+     */
+    private String alias;
+       //\SILEX:todo
+    
+    /**
+     * Type.
+     */
     private String rdfType;
-    //geometry of the scientific object
+    
+    /**
+     * Geometry of the scientific object.
+     */
     private String geometry;
-    //experiment of the scientific object
+    
+    /**
+     * Experiment of the scientific object.
+     */
     private String experiment;
-    //object which has part the scientific object
-    private String isPartOf;    
+    
+    /**
+     * Object which has part the scientific object
+     */
+    private String isPartOf;
     //year of the scientific object
-    private String year;    
+    private String year;
     //label of the scientific object
-    private String label;        
-
+    private String label;
     //The properties of the scientific object
+    
     private ArrayList<Property> properties = new ArrayList<>();
 
     public ScientificObject(String uri) {
@@ -38,7 +61,6 @@ public class ScientificObject {
     }
 
     public ScientificObject() {
-       
     }
     
     public String getUri() {
@@ -116,5 +138,4 @@ public class ScientificObject {
     public void setYear(String year) {
         this.year = year;
     }
-
 }

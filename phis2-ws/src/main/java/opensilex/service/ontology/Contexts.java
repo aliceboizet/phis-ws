@@ -15,6 +15,7 @@ import opensilex.service.PropertiesFileManager;
  */
 public enum Contexts {
     
+    
     //The actuators context contains all the declared actuators.
     ACTUATORS {
         @Override
@@ -73,13 +74,6 @@ public enum Contexts {
             return PLATFORM.toString() + "set/radiometricTargets";
         }
     },
-    //The factors context contains all the declared actuators.
-    FACTORS {
-        @Override
-        public String toString() {
-            return PLATFORM.toString() + "set/factors";
-        }
-    },
     //The context which contains all the declared scientific objects
     SCIENTIFIC_OBJECTS {
         @Override
@@ -114,47 +108,6 @@ public enum Contexts {
         public String toString() {
             return PropertiesFileManager.getConfigFileProperty("sesame_rdf_config", "vocabularyContext");
         }
-    },
-    //The context which contains the germplasm
-    GERMPLASM {
-        @Override
-        public String toString() {
-            return PLATFORM.toString() + "germplasm"; 
-        }
-    },
-    //The context which contains the germplasm
-    SPECIES {
-        @Override
-        public String toString() {
-            return PLATFORM.toString() + "species"; 
-        }
-    },
-    //The context which contains the germplasm
-    VARIETY {
-        @Override
-        public String toString() {
-            return PLATFORM.toString() + "variety"; 
-        }
-    },
-    //The context which contains the germplasm
-    ACCESSION {
-        @Override
-        public String toString() {
-            return PLATFORM.toString() + "accessions"; 
-        }
-    },
-    //The context which contains the germplasm
-    GENUS {
-        @Override
-        public String toString() {
-            return PLATFORM.toString() + "genus"; 
-        }
-    },
-    //The context which contains the germplasm
-    PLANT_MATERIAL_LOT {
-        @Override
-        public String toString() {
-            return PLATFORM.toString() + "plantMaterialLot"; 
-        }
     }
 }
+

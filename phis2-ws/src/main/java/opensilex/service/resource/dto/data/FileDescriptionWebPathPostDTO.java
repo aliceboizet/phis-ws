@@ -45,10 +45,10 @@ public class FileDescriptionWebPathPostDTO extends AbstractVerifiedClass {
     String date;
     
     /**
-     * relative path to the file.
-     * @example {@link DocumentationAnnotation#EXAMPLE_DATA_RELATIVE_FILEPATH}
+     * Web path to the file.
+     * @example http://www.opensilex.org/images/img001.jpg
      */
-    String relativePath;
+    String webPath;
     
     /**
      * List of concerned items related to the data file.
@@ -121,14 +121,15 @@ public class FileDescriptionWebPathPostDTO extends AbstractVerifiedClass {
         this.metadata = metadata;
     }
     
+    @URL
     @Required
-    @ApiModelProperty(example = DocumentationAnnotation.EXAMPLE_DATA_RELATIVE_FILEPATH)
-    public String getRelativePath() {
-        return relativePath;
+    @ApiModelProperty(example = DocumentationAnnotation.EXAMPLE_DATA_FILE_WEB_PATH)
+    public String getWebPath() {
+        return webPath;
     }
 
-    public void setRelativePath(String relativePath) {
-        this.relativePath = relativePath;
+    public void setWebPath(String webPath) {
+        this.webPath = webPath;
     }
 
     @Override
@@ -141,15 +142,13 @@ public class FileDescriptionWebPathPostDTO extends AbstractVerifiedClass {
         description.setDate(df.parse(getDate()));
         
         List<ConcernedItem> items = new ArrayList<>();
-        if(concernedItems != null) {
-        	getConcernedItems().forEach((itemDTO) -> {
-        		items.add(itemDTO.createObjectFromDTO());
-            });
-        }
+        getConcernedItems().forEach((itemDTO) -> {
+            items.add(itemDTO.createObjectFromDTO());
+        });
         description.setConcernedItems(items);
         description.setProvenanceUri(getProvenanceUri());
         description.setMetadata(getMetadata());
-        description.setPath(getRelativePath());
+        description.setWebPath(getWebPath());
         
         return description;
     }

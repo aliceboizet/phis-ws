@@ -29,7 +29,6 @@ import opensilex.service.view.brapi.form.BrapiMultiResponseForm;
 import opensilex.service.model.Call;
 import java.util.ServiceLoader;
 
-
 @Api("/brapi/v1/calls")
 @Path("/brapi/v1/calls")
 /**

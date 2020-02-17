@@ -8,10 +8,8 @@
 package opensilex.service.resource.dto.scientificObject;
 
 import java.util.ArrayList;
-import opensilex.service.dao.GeneticInformationDAO;
 import opensilex.service.model.Property;
 import opensilex.service.model.ScientificObject;
-import opensilex.service.model.GeneticInformation;
 import opensilex.service.resource.dto.manager.AbstractVerifiedClass;
 import opensilex.service.resource.dto.rdfResourceDefinition.PropertyDTO;
 
@@ -42,8 +40,6 @@ public class ScientificObjectDTO extends AbstractVerifiedClass {
     private String label;
     //properties of the scientific object
     private ArrayList<PropertyDTO> properties = new ArrayList<>();
-    //genetic Information
-    private GeneticInformation geneticInformation;
 
     public ScientificObjectDTO() {
        
@@ -56,11 +52,10 @@ public class ScientificObjectDTO extends AbstractVerifiedClass {
         setExperiment(scientificObject.getExperiment());
         setIsPartOf(scientificObject.getIsPartOf());
         setLabel(scientificObject.getLabel());
-   
+        
         for (Property property : scientificObject.getProperties()) {
             addProperty(new PropertyDTO(property));
         }
-
     }
     
     @Override
@@ -143,5 +138,4 @@ public class ScientificObjectDTO extends AbstractVerifiedClass {
     public void setIsPartOf(String isPartOf) {
         this.isPartOf = isPartOf;
     }
-
 }
