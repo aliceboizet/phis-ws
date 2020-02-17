@@ -1,5 +1,5 @@
 //******************************************************************************
-//                            Rdf4jDAOTest.java
+//                            DataResourceService.java
 // SILEX-PHIS
 // Copyright © INRA 2019
 // Creation date: 10 October 2019
@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import org.eclipse.rdf4j.repository.Repository;
 import org.eclipse.rdf4j.repository.RepositoryConnection;
@@ -24,6 +25,7 @@ import opensilex.service.dao.EventDAO;
 import opensilex.service.dao.ExperimentRdf4jDAO;
 import opensilex.service.dao.ProjectDAO;
 import opensilex.service.dao.ScientificObjectRdf4jDAO;
+import opensilex.service.dao.UserDAO;
 import opensilex.service.dao.exception.DAOPersistenceException;
 import opensilex.service.model.Annotation;
 import opensilex.service.model.Event;
@@ -43,6 +45,8 @@ import opensilex.service.utils.UriGenerator;
 
 public abstract class Rdf4jDAOTest {
 	
+	protected static String userUri = "http://www.opensilex.org/demo/id/agent/admin_phis";
+	protected static UserDAO userDao = new UserDAO();
 	
 	private static Repository memoryRepository;
 	
@@ -69,6 +73,13 @@ public abstract class Rdf4jDAOTest {
 		
 		System.out.println("Connection to repository [OK]");
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	protected abstract Rdf4jDAO<?> getDao();
+	
 	
 	@AfterEach
 	public void cleanStore() {
@@ -140,7 +151,7 @@ public abstract class Rdf4jDAOTest {
 
 		ScientificObjectRdf4jDAO soDao = new ScientificObjectRdf4jDAO();
 		initDaoWithInMemoryStoreConnection(soDao);
-		return (ScientificObject) soDao.create(Arrays.asList(so)).get(0);
+		return soDao.create(Arrays.asList(so)).get(0);
 	}
 	
 	/**
@@ -151,19 +162,13 @@ public abstract class Rdf4jDAOTest {
 	 * @throws DAOPersistenceException
 	 * @throws Exception
 	 */
-	protected Annotation createAndGetAnnotation(String creatorUri, String... targetUris) throws DAOPersistenceException, Exception {
+	protected Annotation createAndGetAnnotation(String... targetUri) throws DAOPersistenceException, Exception {
 		
 		AnnotationDAO annotationDao = new AnnotationDAO();
 		initDaoWithInMemoryStoreConnection(annotationDao);
 		
-		ArrayList<String> bodyValues = new ArrayList<String>();
-		bodyValues.add("annotate an event");
-		
-		ArrayList<String> targetsList = new ArrayList<String>(targetUris.length);
-		for(String target : targetUris)
-			targetsList.add(target);
-		
-		Annotation a = new Annotation(null,DateTime.now(),creatorUri,bodyValues,Oa.INSTANCE_DESCRIBING.toString(),targetsList);	
+		Annotation a = new Annotation(null,DateTime.now(),userUri,Arrays.asList("annotate an event"),
+					Oa.INSTANCE_DESCRIBING.toString(),Arrays.asList(targetUri));	
 		return annotationDao.create(Arrays.asList(a)).get(0);	
 	}
 	
@@ -174,13 +179,12 @@ public abstract class Rdf4jDAOTest {
 	 * @throws Exception 
 	 * @throws DAOPersistenceException 
 	 */
-	protected Event createAndGetEvent(String... concernedItemUris) throws DAOPersistenceException, Exception {
+	protected Event createAndGetEvent(String... uris) throws DAOPersistenceException, Exception {
 		
 		EventDAO eventDao = new EventDAO(null);
 		initDaoWithInMemoryStoreConnection(eventDao);
 		
-		ArrayList<String> concernedUrisList = new ArrayList<String>(concernedItemUris.length);	
-		Event event  = new Event(null, Oeev.Event.getURI(),concernedUrisList, new DateTime(), new ArrayList<>(1),new ArrayList<>(1));
+		Event event  = new Event(null, Oeev.Event.getURI(),Arrays.asList(uris), new DateTime(), new ArrayList<>(1),new ArrayList<>(1));
 		eventDao.create(Arrays.asList(event));
 		return event;	
 	}

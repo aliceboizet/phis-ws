@@ -15,6 +15,7 @@ package opensilex.service;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -23,6 +24,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.X509EncodedKeySpec;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Properties;
 import javax.ws.rs.WebApplicationException;
@@ -32,6 +34,7 @@ import org.opensilex.nosql.mongodb.MongoDBConfig;
 import org.opensilex.sparql.rdf4j.RDF4JConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Gère les méthodes appelant tous types de propriétés à partir de fichier de

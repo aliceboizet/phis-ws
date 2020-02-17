@@ -18,6 +18,7 @@ import opensilex.service.resource.validation.interfaces.Date;
 import opensilex.service.resource.validation.interfaces.Required;
 import opensilex.service.resource.validation.interfaces.URL;
 import opensilex.service.model.Data;
+import org.apache.commons.validator.routines.BigDecimalValidator;
 
 /**
  * Data POST DTO.
@@ -56,8 +57,7 @@ public class DataPostDTO extends AbstractVerifiedClass {
     protected Object value;
 
     @URL
-    @Required
-    @ApiModelProperty(example = DocumentationAnnotation.EXAMPLE_SENSOR_URI)
+    @ApiModelProperty(example = DocumentationAnnotation.EXAMPLE_SCIENTIFIC_OBJECT_URI)
     public String getObjectUri() {
         return objectUri;
     }
