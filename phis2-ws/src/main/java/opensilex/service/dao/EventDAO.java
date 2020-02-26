@@ -54,11 +54,12 @@ import org.joda.time.format.DateTimeFormatter;
  * Events DAO.
  * @update [Andreas Garcia] 14 Feb. 2019: Add event detail service.
  * @update [Andreas Garcia] 5 Mar. 2019: Add events insertion service.
- * @update [Andréas Garcia] 5 Mar. 2019: 
- *      Move the generic function to get a string value from a binding set to mother class.
- *      Move concerned items accesses handling into a new ConcernedItemDAO class.
- * @update [Andréas Garcia] 8 Apr. 2019: Use DAO generic function create, update, checkBeforeCreation and use exceptions 
- * to handle errors.
+ * @update [Andréas Garcia] 5 Mar. 2019: Move the generic function to get a
+ * string value from a binding set to mother class. Move concerned items
+ * accesses handling into a new ConcernedItemDAO class.
+ * @update [Andréas Garcia] 8 Apr. 2019: Use DAO generic function create,
+ * update, checkBeforeCreation and use exceptions to handle errors.
+ *
  * @author Andreas Garcia <andreas.garcia@inra.fr>
  */
 public class EventDAO extends Rdf4jDAO<Event> {
@@ -115,7 +116,8 @@ public class EventDAO extends Rdf4jDAO<Event> {
      * @example SparQL filter added:
      *  SELECT DISTINCT ?rdfType
      *  WHERE {
-     *    ?rdfType  <http://www.w3.org/2000/01/rdf-schema#subClassOf>*  <http://www.opensilex.org/vocabulary/oeev#MoveFrom> . 
+     *    ?rdfType  <http://www.w3.org/2000/01/rdf-schema#subClassOf>*  <http://www.opensilex.org/vocabulary/oeev#Event> .
+     *    ?uri  <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  ?rdfType  .
      *  }
      *  GROUP BY ?rdfType
      * @param query
@@ -150,9 +152,9 @@ public class EventDAO extends Rdf4jDAO<Event> {
      * @param type
      * @example
      * SELECT DISTINCT  ?uri ?rdfType ?dateTimeStamp 
-     * WHERE {
-     *   ?uri  <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  ?rdfType  . 
+     * WHERE { 
      *   ?rdfType  <http://www.w3.org/2000/01/rdf-schema#subClassOf>*  <http://www.opensilex.org/vocabulary/oeev#MoveFrom> . 
+     *   ?uri  <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  ?rdfType  .
      *   ?uri  <http://www.opensilex.org/vocabulary/oeev#concerns>  ?concernedItemUri  . 
      *   ?concernedItemUri  <http://www.w3.org/2000/01/rdf-schema#label>  ?concernedItemLabel  . 
      *   ?uri  <http://www.w3.org/2006/time#hasTime>  ?time  . 
@@ -372,8 +374,9 @@ public class EventDAO extends Rdf4jDAO<Event> {
                         null, 
                         event.getUri(), 
                         null, 
-                        null, 
-                        0, 
+                        null,
+                        true,
+                        0,
                         pageSizeMaxValue));
             }
         } catch (RepositoryException|MalformedQueryException|QueryEvaluationException ex) {
@@ -541,8 +544,8 @@ public class EventDAO extends Rdf4jDAO<Event> {
      * @example 
      * SELECT DISTINCT  (COUNT(DISTINCT ?uri) AS ?count) 
      * WHERE {
-     *   ?uri  <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  ?rdfType  . 
      *   ?rdfType  <http://www.w3.org/2000/01/rdf-schema#subClassOf>*  <http://www.opensilex.org/vocabulary/oeev#MoveFrom> . 
+     *   ?uri  <http://www.w3.org/1999/02/22-rdf-syntax-ns#type>  ?rdfType  . 
      *   ?uri  <http://www.opensilex.org/vocabulary/oeev#concerns>  ?concernedItemUri  . 
      *   ?concernedItemUri  <http://www.w3.org/2000/01/rdf-schema#label>  ?concernedItemLabel  . 
      *   ?uri  <http://www.w3.org/2006/time#hasTime>  ?time  . 
@@ -660,9 +663,9 @@ public class EventDAO extends Rdf4jDAO<Event> {
     public Event find(Event object) throws DAOPersistenceException, Exception {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    /** 
-     * Adds a filter to the search query comparing a SPARQL dateTimeStamp 
+
+    /**
+     * Adds a filter to the search query comparing a SPARQL dateTimeStamp
      * variable to a date. 
      * SPARQL dateTimeStamp dates have to be handled in a specific way as 
      * the comparison operators (<, >, etc.) aren't available for dateTimeStamp
@@ -674,7 +677,7 @@ public class EventDAO extends Rdf4jDAO<Event> {
      * @param filterDateString
      * @param filterDateFormat
      * @param filterDateSparqlVariable SPARQL variable (?abc format)
-     * @param comparisonSign e.g >, >=, <, <= 
+     * @param comparisonSign e.g >, >=, <, <=
      * @param dateTimeStampToCompareSparqlVariable the SPARQL variable 
      * (?abc format) of the dateTimeStamp to which the date has to be compared
      * @example SparQL code added to the query :
